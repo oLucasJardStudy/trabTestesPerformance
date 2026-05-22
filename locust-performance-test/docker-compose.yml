@@ -1,0 +1,35 @@
+services:
+  master:
+    image: locustio/locust
+    container_name: locust-master
+    ports:
+      - '8089:8089'
+    volumes:
+      - ./:/mnt/locust
+    command: >
+      -f /mnt/locust/locustfile.py
+      --master
+      --web-host=0.0.0.0
+      -H http://node-api:4444
+    networks:
+      - node-api-connect
+    restart: unless-stopped
+
+  worker:
+    image: locustio/locust
+    container_name: locust-worker
+    volumes:
+      - ./:/mnt/locust
+    command: >
+      -f /mnt/locust/locustfile.py
+      --worker
+      --master-host locust-master
+    depends_on:
+      - master
+    networks:
+      - node-api-connect
+    restart: unless-stopped
+
+networks:
+  node-api-connect:
+    external: true
