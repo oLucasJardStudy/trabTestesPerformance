@@ -8,7 +8,15 @@
     "start:dev": "npx nodemon -L",
     "build": "npm run lint && npx tsc",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node scripts/seed-pokemon.mjs",
+    "seed:force": "node scripts/seed-pokemon.mjs --force",
+    "benchmark": "node scripts/benchmark-list.mjs --both",
+    "benchmark:legacy": "node scripts/benchmark-list.mjs --legacy",
+    "benchmark:optimized": "node scripts/benchmark-list.mjs",
+    "benchmark:concurrent": "node scripts/benchmark-concurrent.mjs --both",
+    "locust:compare": "node scripts/run-locust-comparison.mjs",
+    "locust:screenshots": "node scripts/capture-locust-screenshots.mjs"
   },
   "devDependencies": {
     "@types/cors": "2.8.14",
@@ -22,6 +30,7 @@
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-prettier": "5.0.1",
     "nodemon": "3.0.1",
+    "puppeteer": "24.2.1",
     "ts-node": "10.9.1",
     "typescript": "5.2.2"
   },

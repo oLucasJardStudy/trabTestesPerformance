@@ -7,10 +7,11 @@ services:
       target: development
     volumes:
       - .:/app
-      - /app/node_modules
+      - node_api_modules:/app/node_modules
     ports:
       - 4444:4444
-    command: npm run start:dev
+    command: npx ts-node --transpile-only ./src/app.ts
+    restart: unless-stopped
     environment:
       NODE_ENV: development
       SERVER_PORT: 4444
@@ -20,10 +21,13 @@ services:
       DB_LOGGING: ${DB_LOGGING:-}
     networks:
       - node-api-connect
+    depends_on:
+      - node-api-mysql
 
   node-api-mysql:
     container_name: node-api-mysql
     image: mysql
+    restart: unless-stopped
     environment:
       MYSQL_USER: nodeapi_root
       MYSQL_PASSWORD: j5m966qp7jiypfda
@@ -41,3 +45,6 @@ services:
 networks:
   node-api-connect:
     name: node-api-connect
+
+volumes:
+  node_api_modules:
